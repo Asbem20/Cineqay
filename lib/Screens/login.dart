@@ -7,6 +7,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:cineqay/listas.dart'; // Importación 
 
+// Widget principal de Login
+class Login extends StatefulWidget {
+  const Login({super.key});
+
+  @override
+  State<Login> createState() => _LoginState();
+}
+
+class _LoginState extends State<Login> {
+  // Controladores para obtener texto de los campos de entrada
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+  
 // Libera los controladores cuando el widget se destruye
   @override
   void dispose() {
@@ -14,7 +27,7 @@ import 'package:cineqay/listas.dart'; // Importación
     passwordController.dispose();
     super.dispose();
   }
-
+  
   /// Función que verifica si el usuario existe
   void _handleLogin() {
     final email = emailController.text.trim(); // Elimina espacios

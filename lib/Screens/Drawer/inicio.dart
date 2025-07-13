@@ -5,8 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:cineqay/listas.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+// Widget que muestra el contenido de inicio (buscador y cátalogo)
 class Inicio extends StatefulWidget {
-  final Map<String, dynamic> usuario;
+  final Map<String, dynamic> usuario; // Mapa con los datos del usuario actual
 
   const Inicio({super.key, required this.usuario});
 
@@ -15,18 +16,21 @@ class Inicio extends StatefulWidget {
 }
 
 class _InicioState extends State<Inicio> {
-  List<Map<String, dynamic>> resultados = [];
+  List<Map<String, dynamic>> resultados = []; // Lista de películas que coincidan con la búsqueda
+  // Lista separadas de widgets personalizados por género
   late List<CartillaPelicula> peliculasWidget;
   late List<CartillaPelicula> peliculasTerror;
   late List<CartillaPelicula> peliculasComedia;
   late List<CartillaPelicula> peliculasAnimados;
   late List<CartillaPelicula> peliculasSuspenso;
+  // Controlador del textfield de búsqueda
   final TextEditingController _buscadorController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    resultados = peliculas;
+    resultados = peliculas; // Por defecto muestra todas las películas
+    // La lista de mapas se transforman en un widget personalizado por género
     peliculasWidget =
         peliculas.map((pelicula) {
           return CartillaPelicula(
@@ -41,15 +45,17 @@ class _InicioState extends State<Inicio> {
           );
         }).toList();
 
-    // Generos
+    // Filtrado de películas por género
     peliculasTerror = filtrarPeliculasPorGenero('Terror');
     peliculasComedia = filtrarPeliculasPorGenero('Comedia');
     peliculasAnimados = filtrarPeliculasPorGenero('Animados');
     peliculasSuspenso = filtrarPeliculasPorGenero('Suspenso');
   }
 
+  // Función de búsqueda
   void _buscar(String query) {
     setState(() {
+      // Filtra las películas por título y género
       resultados =
           peliculas
               .where(
@@ -61,6 +67,7 @@ class _InicioState extends State<Inicio> {
     });
   }
 
+  // Calcula el promedio de calificaciones
   String calcularCalificacionPromedio(List<dynamic> calificaciones) {
     if (calificaciones.isEmpty) return '0';
     double promedio =
@@ -68,6 +75,7 @@ class _InicioState extends State<Inicio> {
     return promedio.toStringAsFixed(1);
   }
 
+  // Filtro por género, devuelve la lista de widgets
   List<CartillaPelicula> filtrarPeliculasPorGenero(String genero) {
     return peliculas
         .where(
@@ -92,7 +100,9 @@ class _InicioState extends State<Inicio> {
 
   @override
   Widget build(BuildContext context) {
+    // Determina si hay una búsqueda activa
     final bool hayBusqueda = _buscadorController.text.trim().isNotEmpty;
+    // 
     return SingleChildScrollView(
       child: Column(
         children: [
@@ -107,6 +117,7 @@ class _InicioState extends State<Inicio> {
             ),
           ),
           SizedBox(height: 10.h),
+          // Si se ha usado el buscador, muestra resultados
           if (hayBusqueda) ...[
             TitulosCatalogo(
               textoComplemento: 'RESULTADOS DE',
@@ -133,7 +144,9 @@ class _InicioState extends State<Inicio> {
                     }).toList(),
               ),
             ),
-          ] else ...[
+          ]
+          // Sino, mostrará las películas en secciones por género
+          else ...[
             // Titulo --> Debe indicar el género naturalmente
             TitulosCatalogo(textoComplemento: 'LO MEJOR EN', genero: ' TERROR'),
             SizedBox(height: 10.h),

@@ -9,9 +9,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:cineqay/listas.dart';
 
+// Widget Datolibro muestra todos los datos de una película
 class Datolibro extends StatefulWidget {
-  final int idpelicula;
-  final String idusuario;
+  final int idpelicula; // ID de la película
+  final String idusuario; // ID del usuario actual
 
   const Datolibro({
     super.key,
@@ -24,37 +25,42 @@ class Datolibro extends StatefulWidget {
 }
 
 class _DatolibroState extends State<Datolibro> {
-  Map<String, dynamic>? _pelicula;
+  Map<String, dynamic>? _pelicula; Variable para almacenar los datos de la película
 
   @override
   void initState() {
     super.initState();
 
-    // Buscar película en la lista
+    // Busca película en la lista 'peliculas' por su ID
     _pelicula = peliculas.firstWhere(
       (peli) => peli['idpelicula'] == widget.idpelicula,
-      orElse: () => {},
+      orElse: () => {}, // Si no encuentra, devuelve vacío
     );
   }
 
   @override
   Widget build(BuildContext context) {
+    // Variables booleanas que verifican si la película se encuentra en las listas respectivas del usuario
     bool esFavorito =
         _pelicula?['favoritos']?.contains(widget.idusuario) ?? false;
     bool esDeseado =
         _pelicula?['deseados']?.contains(widget.idusuario) ?? false;
+    
     return Scaffold(
       backgroundColor: Colors.transparent,
-      appBar: AppBarra(),
-      body: FondoDegradado(
+      appBar: AppBarra(), // Widget personalizado de appbar
+      body: FondoDegradado( // Widget personalizado de fondo degradado
         child:
+            // Si no hay datos, se muestra un 'cargando'
             _pelicula == null || _pelicula!.isEmpty
                 ? const Center(child: CircularProgressIndicator())
+                // Si hay datos, carga el contenido de la página
                 : SingleChildScrollView(
                   padding: EdgeInsets.only(bottom: 15.h),
                   child: Center(
                     child: Column(
                       children: [
+                        // Imagen de la película
                         SizedBox(
                           height: 260.h,
                           child: Image.network(
@@ -66,7 +72,6 @@ class _DatolibroState extends State<Datolibro> {
                           ),
                         ),
                         SizedBox(height: 10.h),
-
                         // Título
                         SizedBox(
                           width: 330.w,
@@ -80,10 +85,8 @@ class _DatolibroState extends State<Datolibro> {
                             ),
                           ),
                         ),
-
                         SizedBox(height: 10.h),
-
-                        // Favoritos, Deseados  y Calificacion
+                        // Botones de Favoritos y Deseados
                         Column(
                           children: [
                             Row(
@@ -91,6 +94,7 @@ class _DatolibroState extends State<Datolibro> {
                               children: [
                                 Row(
                                   children: [
+                                    // Botón de Favoritos
                                     SizedBox(
                                       width: 65.h,
                                       child: Column(
@@ -124,6 +128,7 @@ class _DatolibroState extends State<Datolibro> {
                                         ],
                                       ),
                                     ),
+                                    // Botón de Deseados
                                     SizedBox(
                                       width: 65.w,
                                       child: Column(
@@ -161,6 +166,7 @@ class _DatolibroState extends State<Datolibro> {
                                 ),
                               ],
                             ),
+                            // Widget personalizado Calificación
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
@@ -172,13 +178,13 @@ class _DatolibroState extends State<Datolibro> {
                             ),
                           ],
                         ),
+                        // Widget personalizado separador
                         Espaciado(
                           ancho: 350,
                           alto: 5,
                           topMargin: 6,
                           botMargin: 6,
                         ),
-
                         // Sinopsis
                         Container(
                           margin: EdgeInsets.symmetric(horizontal: 28.w),
@@ -192,13 +198,13 @@ class _DatolibroState extends State<Datolibro> {
                             ),
                           ),
                         ),
+                        // Widget personalizado separador
                         Espaciado(
                           ancho: 350,
                           alto: 5,
                           topMargin: 6,
                           botMargin: 6,
                         ),
-
                         // Tabla de datos
                         SizedBox(
                           width: 350.w,
@@ -210,10 +216,11 @@ class _DatolibroState extends State<Datolibro> {
                               ),
                             ),
                             columnWidths: const {
-                              0: FlexColumnWidth(1),
-                              1: FlexColumnWidth(3),
+                              0: FlexColumnWidth(1), // Columna de etiqueta
+                              1: FlexColumnWidth(3), // Columna de contenido
                             },
                             children: [
+                              // Fila Director
                               TableRow(
                                 children: [
                                   Padding(
@@ -235,6 +242,7 @@ class _DatolibroState extends State<Datolibro> {
                                   ),
                                 ],
                               ),
+                              // Fila Género
                               TableRow(
                                 children: [
                                   Padding(
@@ -256,6 +264,7 @@ class _DatolibroState extends State<Datolibro> {
                                   ),
                                 ],
                               ),
+                              // Fila Elenco
                               TableRow(
                                 children: [
                                   Padding(
@@ -280,13 +289,14 @@ class _DatolibroState extends State<Datolibro> {
                             ],
                           ),
                         ),
-
+                        // Widget personalizado separador
                         Espaciado(
                           ancho: 350,
                           alto: 5,
                           topMargin: 6,
                           botMargin: 10,
                         ),
+                        // Widget personalizado de recomendaciones sobre otras películas
                         CartaRecomendacion(idusuario: widget.idusuario),
                         Espaciado(
                           ancho: 350,

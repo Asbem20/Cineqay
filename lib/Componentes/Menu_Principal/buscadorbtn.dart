@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AppBuscador extends StatefulWidget {
-  final ValueChanged<String>? onChanged;
-  final TextEditingController controller;
+  final ValueChanged<String>? onChanged; // Función a ejecutar cuando sucedan cambios
+  final TextEditingController controller; // Controlador para recibir el texto
   const AppBuscador({super.key, this.onChanged,required this.controller});
 
   @override
@@ -12,8 +12,8 @@ class AppBuscador extends StatefulWidget {
 }
 
 class _AppBuscadorState extends State<AppBuscador> {
-  late FocusNode _focus;
-
+  late FocusNode _focus; /*Variable para la edición de diseño en el focus,
+                           cuando el buscador es seleccionado */
   @override
   void initState() {
     super.initState();

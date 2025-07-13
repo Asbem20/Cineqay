@@ -4,8 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:cineqay/listas.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+// Widget para el diseño de la cartilla de recomendaciones
 class CartaRecomendacion extends StatelessWidget {
-  final String idusuario;
+  final String idusuario; // ID del usuario actual
   const CartaRecomendacion({super.key, required this.idusuario});
 
   @override
@@ -15,6 +16,7 @@ class CartaRecomendacion extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          // Encabezado de la sección
           Text(
             'Recomendaciones',
             style: TextStyle(
@@ -33,8 +35,9 @@ class CartaRecomendacion extends StatelessWidget {
               child: Row(
                 children:
                     peliculas.take(8).map((pelicula) {
-                      return GestureDetector(
+                      return GestureDetector( // Detecta taps sobre la tarjeta
                         onTap: () {
+                          // Navega a la página de la película
                           Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -54,6 +57,7 @@ class CartaRecomendacion extends StatelessWidget {
                             children: [
                               ClipRRect(
                                 borderRadius: BorderRadius.circular(10),
+                                // Imagen
                                 child: Image.network(
                                   pelicula['img_url'],
                                   height: 180,
@@ -72,6 +76,7 @@ class CartaRecomendacion extends StatelessWidget {
                                 ),
                               ),
                               SizedBox(height: 5),
+                              // Título
                               Text(
                                 pelicula['Titulo'],
                                 style: TextStyle(
